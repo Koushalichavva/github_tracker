@@ -16,15 +16,13 @@ def get_commit_summary(username, repo_name):
     commits = response.json()
 
     if isinstance(commits, list) and len(commits) > 0:
-        commit_count = len(commits)   # commits in this page
-        #last_commit_date = commits[0]["commit"]["author"]["date"]
+        commit_count = len(commits)
+        last_commit_date = commits[0]["commit"]["author"]["date"]  # latest in this repo
     else:
         commit_count = 0
-        #last_commit_date = "No commits"
+        last_commit_date = "No commits"
 
-    return commit_count
-        #"last_commit_date": last_commit_date
-
+    return commit_count, last_commit_date
 
 def main():
     username = input("Enter GitHub username: ")
@@ -34,12 +32,16 @@ def main():
     print("Account Created On:", user_data["created_at"])
     repos = get_repositories(username)
     print("Total Repositories:", len(repos))
+    latest_commit_overall = None
     for repo in repos:
-        key=repo["name"]
+        key = repo["name"]
+        commit_count, last_commit_date = get_commit_summary(username, key)
         print(key)
-        commit_func=get_commit_summary(username, key)
-        print(f"Number of Commits: {commit_func}")
-
+        print(f"Number of Commits: {commit_count}")
+        if last_commit_date != "No commits":
+            if (latest_commit_overall is None) or (last_commit_date > latest_commit_overall):
+                latest_commit_overall = last_commit_date
+    print("Last Commit Date (overall):", latest_commit_overall)
 
 if __name__ == "__main__":
     main()
