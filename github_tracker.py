@@ -1,4 +1,5 @@
 import requests
+<<<<<<< HEAD
 
 def get_user_details(username):
     url = f"https://api.github.com/users/{username}"
@@ -23,6 +24,53 @@ def get_commit_summary(username, repo_name):
         last_commit_date = "No commits"
 
     return commit_count, last_commit_date
+=======
+import time
+import os
+from dotenv import load_dotenv
+load_dotenv()   # loads variables from .env into environment
+GITHUB_TOKEN = os.getenv("MY_GITHUB_TOKEN")
+HEADERS = {
+    "Authorization": f"token {GITHUB_TOKEN}"
+}
+
+def get_user_details(username):
+    url = f"https://api.github.com/users/{username}"
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print("Failed to fetch user details:", e)
+        return None
+
+def get_repositories(username):
+    url = f"https://api.github.com/users/{username}/repos?sort=created&direction=asc"
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        response.raise_for_status() #checks for HTTP errors (like 401, 404, 500).
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print("Failed to fetch repositories:", e)
+        return []
+
+def get_commit_summary(username, repo_name):
+    url = f"https://api.github.com/repos/{username}/{repo_name}/commits?per_page=100&page=1"
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        response.raise_for_status()
+        commits = response.json()
+        if commits:
+            commit_count = len(commits)  # usually 1 here due to per_page=1
+            last_commit_date = commits[0]["commit"]["author"]["date"]
+        else:
+            commit_count = 0
+            last_commit_date = "No commits"
+        return commit_count, last_commit_date
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to fetch commits for {repo_name}:", e)
+        return 0, "No commits"
+>>>>>>> adc7964 (new token added)
 
 def main():
     username = input("Enter GitHub username: ")
@@ -41,6 +89,10 @@ def main():
         if last_commit_date != "No commits":
             if (latest_commit_overall is None) or (last_commit_date > latest_commit_overall):
                 latest_commit_overall = last_commit_date
+<<<<<<< HEAD
+=======
+        time.sleep(0.5)
+>>>>>>> adc7964 (new token added)
     print("Last Commit Date (overall):", latest_commit_overall)
 
 if __name__ == "__main__":
