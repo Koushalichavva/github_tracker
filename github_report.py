@@ -1,40 +1,40 @@
-# import requests
-# username = "Koushalichavva"   # Later you will take input from user
-# url = f"https://api.github.com/repos/Koushalichavva/gitbasics/commits{/sha}"
-# response = requests.get(url)
-# data = response.json()
-# print("Number of repositories:", len(data))
-# for repo in data:
-#     print(repo["name"])
+import requests
+username = "Koushalichavva"   # Later you will take input from user
+url = f"https://api.github.com/repos/Koushalichavva"
+response = requests.get(url)
+data = response.json()
+print("Number of repositories:", len(data))
+for repo in data:
+    print(repo["name"])
 
-# #commits-url
-# import requests
+#commits-url
+import requests
 
-# username = "Koushalichavva"
-# repo_name = "gitbasics"
-# url = f"https://api.github.com/repos/{username}/{repo_name}/commits"
+username = "Koushalichavva"
+repo_name = "gitbasics"
+url = f"https://api.github.com/repos/{username}/{repo_name}/commits"
 
-# response = requests.get(url)
-# data = response.json()
+response = requests.get(url)
+data = response.json()
 
-# print("Number of commits fetched in this page:", len(data))
+print("Number of commits fetched in this page:", len(data))
 
-# for commit in data:
-#     print(commit["commit"]["message"])
-# import requests
+for commit in data:
+    print(commit["commit"]["message"])
+import requests
 
-# username = "Koushalichavva"
-# repo_name = "gitbasics"
+username = "Koushalichavva"
+repo_name = "gitbasics"
 
-# url = f"https://api.github.com/repos/{username}/{repo_name}/commits"
+url = f"https://api.github.com/repos/{username}/{repo_name}/commits"
 
-# response = requests.get(url)
-# data = response.json()
+response = requests.get(url)
+data = response.json()
 
-# # Latest commit is the first item in the list
-# latest_commit_date = data[0]["commit"]["author"]["date"]
+# Latest commit is the first item in the list
+latest_commit_date = data[0]["commit"]["author"]["date"]
 
-# print("Latest commit date:", latest_commit_date)
+print("Latest commit date:", latest_commit_date)
 from fpdf import FPDF
 import os
 file_name = "github_report.pdf"
